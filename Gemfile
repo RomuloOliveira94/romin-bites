@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "bootsnap", require: false
+gem "jsonapi-serializer"
 gem "kamal", require: false
 gem "puma", ">= 5.0"
 gem "rails", "~> 8.0.2"
