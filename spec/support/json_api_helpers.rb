@@ -23,4 +23,14 @@ module JsonApiHelpers
       expect(resource['attributes']).to have_key(attr.to_s)
     end
   end
+
+  def expect_resource_id(expected_id)
+    resource = json_data.is_a?(Array) ? json_data.first : json_data
+    expect(resource['id']).to eq(expected_id.to_s)
+  end
+
+  def expect_resource_type(expected_type)
+    resource = json_data.is_a?(Array) ? json_data.first : json_data
+    expect(resource['type']).to eq(expected_type)
+  end
 end
