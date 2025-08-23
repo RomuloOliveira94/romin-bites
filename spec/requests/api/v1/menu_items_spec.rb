@@ -10,6 +10,13 @@ RSpec.describe 'Api::V1::MenuItems', type: :request do
       expect_json_response
       expect_collection_size(3)
       expect_resource_attributes('name', 'price', 'description')
+
+      menu_items.each do |menu_item|
+        item_data = json_data.find { |i| i['id'] == menu_item.id.to_s }
+        expect(item_data['attributes']['name']).to eq(menu_item.name)
+        expect(item_data['attributes']['price']).to eq(menu_item.price.to_s)
+        expect(item_data['attributes']['description']).to eq(menu_item.description)
+      end
     end
 
     context 'with include parameter' do
@@ -20,6 +27,13 @@ RSpec.describe 'Api::V1::MenuItems', type: :request do
         expect_collection_size(3)
         expect_relationship('menus')
         expect_included_resources('menu', 3)
+      end
+
+      it 'does not include menus without include parameter' do
+        get '/api/v1/menu_items'
+
+        expect_json_response
+        expect(json_included).to be_nil
       end
     end
   end
@@ -34,6 +48,10 @@ RSpec.describe 'Api::V1::MenuItems', type: :request do
       expect_resource_type('menu_item')
       expect_resource_id(menu_item.id)
       expect(json_data['attributes']['name']).to eq(menu_item.name)
+      expect(json_data['attributes']['price']).to eq(menu_item.price.to_s)
+      expect(json_data['attributes']['description']).to eq(menu_item.description)
+      expect(json_data['attributes']['created_at']).to be_present
+      expect(json_data['attributes']['updated_at']).to be_present
     end
 
     context 'with include parameter' do
@@ -44,6 +62,13 @@ RSpec.describe 'Api::V1::MenuItems', type: :request do
         expect_resource_type('menu_item')
         expect_relationship('menus')
         expect_included_resources('menu', 3)
+
+        included_menus = json_included.select { |i| i['type'] == 'menu' }
+        menu_item.menus.each do |menu|
+          included_menu = included_menus.find { |i| i['id'] == menu.id.to_s }
+          expect(included_menu['attributes']['name']).to eq(menu.name)
+          expect(included_menu['attributes']['description']).to eq(menu.description)
+        end
       end
 
       it 'does not include menus when not requested' do
