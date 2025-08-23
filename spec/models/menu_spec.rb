@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Menu, type: :model do
   describe 'associations' do
-    it { should have_many(:menu_items).dependent(:destroy) }
+    it { should have_and_belong_to_many(:menu_items) }
   end
 
   describe 'validations' do

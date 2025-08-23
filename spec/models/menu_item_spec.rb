@@ -2,12 +2,11 @@ require 'rails_helper'
 
 RSpec.describe MenuItem, type: :model do
   describe 'associations' do
-    it { should belong_to(:menu) }
+    it { should have_and_belong_to_many(:menus) }
   end
 
   describe 'validations' do
-    let(:menu) { create(:menu) }
-    subject { build(:menu_item, menu: menu) }
+    subject { build(:menu_item) }
 
     it { should validate_presence_of(:name) }
     it { should validate_uniqueness_of(:name) }

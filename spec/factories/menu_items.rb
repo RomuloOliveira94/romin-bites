@@ -3,6 +3,5 @@ FactoryBot.define do
     name { FFaker::Food.ingredient }
     description { FFaker::Lorem.paragraph }
     price { rand(1.0..100.0).round(2) }
-    menu
   end
 end
