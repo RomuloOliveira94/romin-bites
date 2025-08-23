@@ -2,7 +2,11 @@ require 'rails_helper'
 
 RSpec.describe MenuSerializer do
   let(:menu) { create(:menu) }
-  let!(:menu_items) { create_list(:menu_item, 2, menu: menu) }
+  let!(:menu_items) do
+    create_list(:menu_item, 2).tap do |items|
+      items.each { |item| item.menus << menu }
+    end
+  end
   let(:serializer) { MenuSerializer.new(menu) }
   let(:serialized_data) { serializer.serializable_hash }
 
