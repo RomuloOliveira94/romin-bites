@@ -7,6 +7,10 @@ module JsonApiHelpers
     json['data']
   end
 
+  def json_included
+    json['included']
+  end
+
   def expect_json_response(status: :ok)
     expect(response).to have_http_status(status)
     expect(response.content_type).to include('application/')
@@ -32,5 +36,17 @@ module JsonApiHelpers
   def expect_resource_type(expected_type)
     resource = json_data.is_a?(Array) ? json_data.first : json_data
     expect(resource['type']).to eq(expected_type)
+  end
+
+  def expect_relationship(relationship_name)
+    resource = json_data.is_a?(Array) ? json_data.first : json_data
+    expect(resource['relationships']).to have_key(relationship_name.to_s)
+  end
+
+  def expect_included_resources(expected_type, expected_count = nil)
+    expect(json_included).to be_present
+    included_of_type = json_included.select { |r| r['type'] == expected_type }
+    expect(included_of_type.size).to eq(expected_count) if expected_count
+    included_of_type
   end
 end
