@@ -1,5 +1,7 @@
 class Api::V1::MenusController < ApplicationController
-  before_action :set_menu, only: [:show]
+  include JsonApiSerializable
+
+  before_action :set_menu, only: [ :show ]
 
   def index
     menus = Menu.all
@@ -13,14 +15,6 @@ class Api::V1::MenusController < ApplicationController
   end
 
   private
-
-  def build_serializer_options
-    options = {}
-    if params[:include].present?
-      options[:include] = params[:include].split(',').map(&:to_sym)
-    end
-    options
-  end
 
   def set_menu
     @menu = Menu.find(params[:id])
