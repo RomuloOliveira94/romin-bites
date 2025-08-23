@@ -22,6 +22,19 @@ RSpec.describe 'Api::V1::Restaurants', type: :request do
         expect_relationship('menus')
         expect_included_resources('menu', 2)
       end
+
+      it 'includes nested menu_items when requested' do
+        get '/api/v1/restaurants?include=menus.menu_items'
+
+        expect_json_response
+        expect_relationship('menus')
+
+        menu_resources = json_included.select { |r| r['type'] == 'menu' }
+        expect(menu_resources.size).to eq(2)
+
+        menu_item_resources = json_included.select { |r| r['type'] == 'menu_item' }
+        expect(menu_item_resources.size).to be > 0
+      end
     end
   end
 
@@ -47,6 +60,20 @@ RSpec.describe 'Api::V1::Restaurants', type: :request do
         expect_resource_type('restaurant')
         expect_relationship('menus')
         expect_included_resources('menu', 2)
+      end
+
+      it 'includes nested menu_items when requested' do
+        get "/api/v1/restaurants/#{restaurant.id}?include=menus.menu_items"
+
+        expect_json_response
+        expect_resource_type('restaurant')
+        expect_relationship('menus')
+
+        menu_resources = json_included.select { |r| r['type'] == 'menu' }
+        expect(menu_resources.size).to eq(2)
+
+        menu_item_resources = json_included.select { |r| r['type'] == 'menu_item' }
+        expect(menu_item_resources.size).to be > 0
       end
 
       it 'does not include menus when not requested' do

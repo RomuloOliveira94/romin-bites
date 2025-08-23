@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :restaurant do
-    sequence(:name) { FFaker::Company.name }
+    sequence(:name) { |n| "#{FFaker::Company.name} #{n}" }
     description { FFaker::Lorem.paragraph }
 
     trait :with_menus do
