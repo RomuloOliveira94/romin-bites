@@ -23,6 +23,6 @@ class Api::V1::RestaurantsController < ApplicationController
   def set_restaurant
     @restaurant = Restaurant.includes(build_includes).find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Restaurant not found" }, status: :not_found
+    render json: { error: I18n.t("errors.not_found.restaurant") }, status: :not_found
   end
 end

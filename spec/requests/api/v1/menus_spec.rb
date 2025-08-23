@@ -84,6 +84,7 @@ RSpec.describe 'Api::V1::Menus', type: :request do
       get '/api/v1/menus/999999'
 
       expect_json_response(status: :not_found)
+      expect(json_error).to eq(I18n.t('errors.not_found.menu'))
     end
   end
 end

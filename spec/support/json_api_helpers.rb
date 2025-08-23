@@ -11,6 +11,10 @@ module JsonApiHelpers
     json['included']
   end
 
+  def json_error
+    json['error']
+  end
+
   def expect_json_response(status: :ok)
     expect(response).to have_http_status(status)
     expect(response.content_type).to include('application/')

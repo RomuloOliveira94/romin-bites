@@ -29,3 +29,9 @@
 
 en:
   hello: "Hello world"
+  
+  errors:
+    not_found:
+      restaurant: "Restaurant not found"
+      menu: "Menu not found"
+      menu_item: "Menu item not found"

@@ -111,6 +111,7 @@ RSpec.describe 'Api::V1::Restaurants', type: :request do
       get '/api/v1/restaurants/999999'
 
       expect_json_response(status: :not_found)
+      expect(json_error).to eq(I18n.t('errors.not_found.restaurant'))
     end
   end
 end
