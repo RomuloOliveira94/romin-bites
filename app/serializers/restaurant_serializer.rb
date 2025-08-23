@@ -3,5 +3,5 @@ class RestaurantSerializer
 
   attributes :name, :description, :created_at, :updated_at
 
-  has_many :menus
+  has_many :menus, serializer: MenuSerializer
 end
