@@ -10,6 +10,12 @@ RSpec.describe 'Api::V1::Menus', type: :request do
       expect_json_response
       expect_collection_size(3)
       expect_resource_attributes('name', 'description')
+
+      menus.each do |menu|
+        menu_data = json_data.find { |m| m['id'] == menu.id.to_s }
+        expect(menu_data['attributes']['name']).to eq(menu.name)
+        expect(menu_data['attributes']['description']).to eq(menu.description)
+      end
     end
 
     context 'with include parameter' do
@@ -21,6 +27,13 @@ RSpec.describe 'Api::V1::Menus', type: :request do
         expect_json_response
         expect_relationship('menu_items')
         expect_included_resources('menu_item', 2)
+      end
+
+      it 'does not include menu_items without include parameter' do
+        get '/api/v1/menus'
+
+        expect_json_response
+        expect(json_included).to be_nil
       end
     end
   end
@@ -35,6 +48,9 @@ RSpec.describe 'Api::V1::Menus', type: :request do
       expect_resource_type('menu')
       expect_resource_id(menu.id)
       expect(json_data['attributes']['name']).to eq(menu.name)
+      expect(json_data['attributes']['description']).to eq(menu.description)
+      expect(json_data['attributes']['created_at']).to be_present
+      expect(json_data['attributes']['updated_at']).to be_present
     end
 
     context 'with include parameter' do
@@ -47,6 +63,13 @@ RSpec.describe 'Api::V1::Menus', type: :request do
         expect_resource_type('menu')
         expect_relationship('menu_items')
         expect_included_resources('menu_item', 3)
+
+        included_items = json_included.select { |i| i['type'] == 'menu_item' }
+        menu.menu_items.each do |item|
+          included_item = included_items.find { |i| i['id'] == item.id.to_s }
+          expect(included_item['attributes']['name']).to eq(item.name)
+          expect(included_item['attributes']['price']).to eq(item.price.to_s)
+        end
       end
 
       it 'does not include menu_items when not requested' do

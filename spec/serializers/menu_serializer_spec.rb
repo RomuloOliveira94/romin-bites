@@ -49,4 +49,29 @@ RSpec.describe MenuSerializer do
       expect(data[:id]).to eq(menu.id.to_s)
     end
   end
+
+  describe 'with includes' do
+    let(:serializer_with_includes) { MenuSerializer.new(menu, include: [ :menu_items ]) }
+    let(:serialized_with_includes) { serializer_with_includes.serializable_hash }
+
+    it 'includes menu_items data in included section' do
+      expect(serialized_with_includes).to have_key(:included)
+      expect(serialized_with_includes[:included]).to be_an(Array)
+      expect(serialized_with_includes[:included].size).to eq(2)
+
+      serialized_with_includes[:included].each do |included_item|
+        expect(included_item[:type]).to eq(:menu_item)
+        expect(included_item[:attributes]).to include(:name, :price)
+      end
+    end
+
+    it 'maintains relationship references' do
+      relationships = serialized_with_includes[:data][:relationships]
+      included_ids = serialized_with_includes[:included].map { |item| item[:id] }
+
+      relationships[:menu_items][:data].each do |rel|
+        expect(included_ids).to include(rel[:id])
+      end
+    end
+  end
 end
