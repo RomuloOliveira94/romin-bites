@@ -13,8 +13,7 @@ RSpec.describe 'Api::V1::Menus', type: :request do
     end
 
     context 'with include parameter' do
-      let!(:menu) { create(:menu) }
-      let!(:menu_items) { create_list(:menu_item, 2, menu: menu) }
+      let!(:menu) { create(:menu, :with_menu_items, menu_items_count: 2) }
 
       it 'includes menu_items when requested' do
         get '/api/v1/menus?include=menu_items'
@@ -39,7 +38,7 @@ RSpec.describe 'Api::V1::Menus', type: :request do
     end
 
     context 'with include parameter' do
-      let!(:menu_items) { create_list(:menu_item, 3, menu: menu) }
+      let!(:menu) { create(:menu, :with_menu_items) }
 
       it 'includes menu_items when requested' do
         get "/api/v1/menus/#{menu.id}?include=menu_items"

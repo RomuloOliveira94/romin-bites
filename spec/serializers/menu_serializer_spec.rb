@@ -1,12 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe MenuSerializer do
-  let(:menu) { create(:menu) }
-  let!(:menu_items) do
-    create_list(:menu_item, 2).tap do |items|
-      items.each { |item| item.menus << menu }
-    end
-  end
+  let(:menu) { create(:menu, :with_menu_items, menu_items_count: 2) }
   let(:serializer) { MenuSerializer.new(menu) }
   let(:serialized_data) { serializer.serializable_hash }
 
@@ -38,7 +33,7 @@ RSpec.describe MenuSerializer do
       expect(relationships[:menu_items][:data]).to be_an(Array)
       expect(relationships[:menu_items][:data].size).to eq(2)
 
-      menu_items.each do |menu_item|
+      menu.menu_items.each do |menu_item|
         expect(relationships[:menu_items][:data]).to include(
           { id: menu_item.id.to_s, type: :menu_item }
         )
