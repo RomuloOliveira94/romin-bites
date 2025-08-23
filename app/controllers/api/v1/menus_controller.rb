@@ -1,10 +1,13 @@
 class Api::V1::MenusController < ApplicationController
   include JsonApiSerializable
+  include IncludeBuilder
+
+  allow_include "menu_items", :menu_items
 
   before_action :set_menu, only: [ :show ]
 
   def index
-    menus = Menu.all
+    menus = Menu.includes(build_includes)
     options = build_serializer_options
     render json: MenuSerializer.new(menus, options).serializable_hash, status: :ok
   end

@@ -1,5 +1,9 @@
 class Api::V1::RestaurantsController < ApplicationController
   include JsonApiSerializable
+  include IncludeBuilder
+
+  allow_include "menus", :menus
+  allow_include "menus.menu_items", { menus: :menu_items }
 
   before_action :set_restaurant, only: [ :show ]
 
@@ -20,11 +24,5 @@ class Api::V1::RestaurantsController < ApplicationController
     @restaurant = Restaurant.includes(build_includes).find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Restaurant not found" }, status: :not_found
-  end
-
-  def build_includes
-    return [] unless params[:include]&.include?("menus.menu_items")
-
-    [ { menus: :menu_items } ]
   end
 end
