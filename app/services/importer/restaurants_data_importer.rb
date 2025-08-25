@@ -214,7 +214,7 @@ module Importer
 
     def add_log(message, type = :success, category = :restaurants)
       unless @logs.key?(category)
-        raise ArgumentError, "Invalid category: #{category}. Valid categories: #{@logs.keys.join(', ')}"
+        raise ArgumentError, I18n.t("importers.restaurants.invalid_log_category", category: category, valid_categories: @logs.keys.join(", "))
       end
 
       @logs[category][type] << message

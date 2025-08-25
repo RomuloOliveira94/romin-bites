@@ -48,6 +48,7 @@ en:
       menu_item_error: "Error processing menu item '%{name}' for menu '%{menu}': %{error}"
       create_menu_item_error: "Failed to create menu item '%{name}': %{error}"
       association_error: "Failed to associate menu item '%{item}' with menu '%{menu}': %{error}"
+      invalid_log_category: "Invalid category: %{category}. Valid categories: %{valid_categories}"
       
       logs:
         restaurant_created: "Created restaurant '%{name}' (ID: %{id})"
