@@ -58,3 +58,9 @@ en:
         menu_item_found: "Menu item '%{name}' already exists (ID: %{id})"
         association_created: "Associated '%{item}' with menu '%{menu}'"
         association_exists: "Association already exists: '%{item}' ↔ '%{menu}'"
+
+      jobs:
+        import_failed: "Import failed: %{error}"
+        no_file_provided: "No file provided"
+        queued_for_processing: "Import queued for processing"
+        still_processing: "Import still processing or job not found"

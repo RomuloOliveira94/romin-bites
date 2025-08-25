@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :restaurants, only: [ :index, :show ] do
         collection do
           post :import
+          get :import_status
         end
       end
       resources :menus, only: [ :index, :show ]

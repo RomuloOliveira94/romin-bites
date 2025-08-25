@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Restaurants', type: :request do
+  include ActiveJob::TestHelper
+
   describe 'GET /api/v1/restaurants' do
     let!(:restaurants) { create_list(:restaurant, 3) }
 
@@ -112,6 +114,80 @@ RSpec.describe 'Api::V1::Restaurants', type: :request do
 
       expect_json_response(status: :not_found)
       expect(json_error).to eq(I18n.t('errors.not_found.restaurant'))
+    end
+  end
+
+  describe 'POST /api/v1/restaurants/import' do
+    let(:json_data) do
+      {
+        "restaurants" => [
+          {
+            "name" => "Test Restaurant",
+            "menus" => [
+              {
+                "name" => "Main Menu",
+                "menu_items" => [
+                  { "name" => "Burger", "price" => "15.99", "description" => "Delicious burger" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    end
+
+    let(:file) do
+      temp_file = Tempfile.new([ 'test', '.json' ])
+      temp_file.write(json_data.to_json)
+      temp_file.rewind
+      Rack::Test::UploadedFile.new(temp_file.path, 'application/json')
+    end
+
+    it 'queues import job and returns job_id' do
+      expect {
+        post '/api/v1/restaurants/import', params: { file: file }
+      }.to have_enqueued_job(RestaurantImportJob)
+
+      expect(response).to have_http_status(:accepted)
+      expect(JSON.parse(response.body)['success']).to be true
+      expect(JSON.parse(response.body)['job_id']).to be_present
+      expect(JSON.parse(response.body)['status_url']).to be_present
+    end
+
+    it 'returns error when no file provided' do
+      post '/api/v1/restaurants/import'
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(JSON.parse(response.body)['success']).to be false
+      expect(JSON.parse(response.body)['message']).to eq(I18n.t("importers.restaurants.jobs.no_file_provided"))
+    end
+  end
+
+  describe 'GET /api/v1/restaurants/import_status' do
+    before do
+      # Usar memory store para os testes
+      allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+    end
+
+    it 'returns job result when available' do
+      job_id = "test_job_123"
+      result = { success: true, message: "Import completed" }
+      Rails.cache.write("import_result_#{job_id}", result)
+
+      get '/api/v1/restaurants/import_status', params: { job_id: job_id }
+
+      expect(response).to have_http_status(:ok)
+      expect(JSON.parse(response.body)).to eq(result.as_json)
+    end
+
+    it 'returns processing status when job not finished' do
+      job_id = "processing_job_123"
+
+      get '/api/v1/restaurants/import_status', params: { job_id: job_id }
+
+      expect(response).to have_http_status(:accepted)
+      expect(JSON.parse(response.body)['success']).to be false
+      expect(JSON.parse(response.body)['message']).to eq(I18n.t("importers.restaurants.jobs.still_processing"))
     end
   end
 end
