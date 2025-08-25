@@ -18,6 +18,21 @@ class Api::V1::RestaurantsController < ApplicationController
     render json: RestaurantSerializer.new(@restaurant, options).serializable_hash, status: :ok
   end
 
+  def import
+    result = Importer::RestaurantsDataImporter.new(params[:file]).import!
+
+    if result[:success]
+      render json: result, status: :ok
+    else
+      render json: result, status: :unprocessable_entity
+    end
+  rescue StandardError => e
+    render json: {
+      success: false,
+      message: I18n.t("importers.restaurants.fatal_error", error: e.message)
+    }, status: :internal_server_error
+  end
+
   private
 
   def set_restaurant

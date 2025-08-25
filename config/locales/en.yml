@@ -35,3 +35,26 @@ en:
       restaurant: "Restaurant not found"
       menu: "Menu not found"
       menu_item: "Menu item not found"
+
+  importers:
+    restaurants:
+      success: "Import completed successfully!"
+      completed_with_errors: "Import completed with errors"
+      fatal_error: "Fatal error during import: %{error}"
+      restaurant_error: "Error processing restaurant '%{name}': %{error}"
+      create_restaurant_error: "Failed to create restaurant '%{name}': %{error}"
+      menu_error: "Error processing menu '%{name}' for restaurant '%{restaurant}': %{error}"
+      create_menu_error: "Failed to create menu '%{name}': %{error}"
+      menu_item_error: "Error processing menu item '%{name}' for menu '%{menu}': %{error}"
+      create_menu_item_error: "Failed to create menu item '%{name}': %{error}"
+      association_error: "Failed to associate menu item '%{item}' with menu '%{menu}': %{error}"
+      
+      logs:
+        restaurant_created: "Created restaurant '%{name}' (ID: %{id})"
+        restaurant_found: "Restaurant '%{name}' already exists (ID: %{id})"
+        menu_created: "Created menu '%{name}' for '%{restaurant}' (ID: %{id})"
+        menu_found: "Menu '%{name}' already exists for '%{restaurant}' (ID: %{id})"
+        menu_item_created: "Created menu item '%{name}' - $%{price} (ID: %{id})"
+        menu_item_found: "Menu item '%{name}' already exists (ID: %{id})"
+        association_created: "Associated '%{item}' with menu '%{menu}'"
+        association_exists: "Association already exists: '%{item}' ↔ '%{menu}'"
