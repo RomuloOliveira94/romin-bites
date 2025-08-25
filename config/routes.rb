@@ -6,8 +6,11 @@ Rails.application.routes.draw do
           post :import
           get :import_status
         end
+        resources :menus, only: [ :index ]
       end
-      resources :menus, only: [ :index, :show ]
+      resources :menus, only: [ :index, :show ] do
+        resources :menu_items, only: [ :index ]
+      end
       resources :menu_items, only: [ :index, :show ]
     end
   end

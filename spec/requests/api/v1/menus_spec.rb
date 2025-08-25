@@ -38,6 +38,50 @@ RSpec.describe 'Api::V1::Menus', type: :request do
     end
   end
 
+  describe 'GET /api/v1/restaurants/:restaurant_id/menus' do
+    let!(:restaurant) { create(:restaurant) }
+    let!(:restaurant_menus) { create_list(:menu, 2, restaurant: restaurant) }
+    let!(:other_menus) { create_list(:menu, 3) }
+
+    it 'returns only menus for the specified restaurant' do
+      get "/api/v1/restaurants/#{restaurant.id}/menus"
+
+      expect_json_response
+      expect_collection_size(2)
+      expect_resource_attributes('name', 'description')
+
+      restaurant_menus.each do |menu|
+        menu_data = json_data.find { |m| m['id'] == menu.id.to_s }
+        expect(menu_data['attributes']['name']).to eq(menu.name)
+        expect(menu_data['attributes']['description']).to eq(menu.description)
+      end
+
+      other_menus.each do |menu|
+        menu_data = json_data.find { |m| m['id'] == menu.id.to_s }
+        expect(menu_data).to be_nil
+      end
+    end
+
+    it 'returns 404 when restaurant not found' do
+      get '/api/v1/restaurants/999999/menus'
+
+      expect_json_response(status: :not_found)
+      expect(json_error).to eq(I18n.t('errors.not_found.restaurant'))
+    end
+
+    context 'with include parameter' do
+      let!(:menu_with_items) { create(:menu, :with_menu_items, restaurant: restaurant) }
+
+      it 'includes menu_items when requested' do
+        get "/api/v1/restaurants/#{restaurant.id}/menus?include=menu_items"
+
+        expect_json_response
+        expect_relationship('menu_items')
+        expect_included_resources('menu_item', 3)
+      end
+    end
+  end
+
   describe 'GET /api/v1/menus/:id' do
     let!(:menu) { create(:menu) }
 
