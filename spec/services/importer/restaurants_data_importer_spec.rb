@@ -37,6 +37,24 @@ RSpec.describe Importer::RestaurantsDataImporter do
         expect(result[:stats][:restaurants_created]).to eq 1
         expect(result[:stats][:menus_created]).to eq 1
         expect(result[:stats][:menu_items_created]).to eq 1
+        expect(result[:logs]).to have_key(:restaurants)
+        expect(result[:logs]).to have_key(:menus)
+        expect(result[:logs]).to have_key(:menu_items)
+        expect(result[:logs]).to have_key(:associations)
+      end
+
+      it 'categorizes logs correctly' do
+        result = importer.import!
+
+        expect(result[:logs][:restaurants][:success]).not_to be_empty
+        expect(result[:logs][:menus][:success]).not_to be_empty
+        expect(result[:logs][:menu_items][:success]).not_to be_empty
+        expect(result[:logs][:associations][:success]).not_to be_empty
+
+        expect(result[:logs][:restaurants][:success].first).to include("Test Restaurant")
+        expect(result[:logs][:menus][:success].first).to include("Main Menu")
+        expect(result[:logs][:menu_items][:success].first).to include("Burger")
+        expect(result[:logs][:associations][:success].first).to include("Associated")
       end
 
       it 'associates menu item with menu' do
