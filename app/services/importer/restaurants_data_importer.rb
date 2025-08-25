@@ -3,15 +3,14 @@ module Importer
     ENTITY_CONFIGS = {
       restaurant: {
         fields: [ :name ],
-        finder_key: :name
+        children_keys: [ "menus" ]
       },
       menu: {
         fields: [ :name ],
-        finder_key: :name
+        children_keys: [ "menu_items", "dishes" ]
       },
       menu_item: {
-        fields: [ :name, :price, :description ],
-        finder_key: :name
+        fields: [ :name, :price, :description ]
       }
     }.freeze
 
@@ -73,7 +72,10 @@ module Importer
       restaurants_data["restaurants"].each do |restaurant_data|
         begin
           restaurant = create_or_find_restaurant(restaurant_data)
-          import_restaurant_menus(restaurant, restaurant_data["menus"]) if restaurant
+          if restaurant
+            menus_data = find_children_data(restaurant_data, :restaurant)
+            import_restaurant_menus(restaurant, menus_data) if menus_data
+          end
         rescue StandardError => e
           add_error(I18n.t("importers.restaurants.restaurant_error", name: restaurant_data["name"], error: e.message))
         end
@@ -109,7 +111,10 @@ module Importer
       menus_data.each do |menu_data|
         begin
           menu = create_or_find_menu(restaurant, menu_data)
-          import_menu_items(menu, menu_data["menu_items"]) if menu
+          if menu
+            menu_items_data = find_children_data(menu_data, :menu)
+            import_menu_items(menu, menu_items_data) if menu_items_data
+          end
         rescue StandardError => e
           add_error(I18n.t("importers.restaurants.menu_error", name: menu_data["name"], restaurant: restaurant.name, error: e.message))
         end
@@ -192,6 +197,17 @@ module Importer
       config[:fields].each_with_object({}) do |field, attributes|
         attributes[field] = data[field.to_s] if data[field.to_s].present?
       end
+    end
+
+    def find_children_data(data, entity_type)
+      config = ENTITY_CONFIGS[entity_type]
+      return nil unless config && data.is_a?(Hash)
+
+      config[:children_keys].map(&:to_s).each do |key|
+        return data[key] if data[key].present?
+      end
+
+      nil
     end
 
     def add_error(message)

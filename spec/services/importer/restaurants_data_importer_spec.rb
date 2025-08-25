@@ -73,5 +73,35 @@ RSpec.describe Importer::RestaurantsDataImporter do
         expect(result[:message]).to include("Invalid JSON format")
       end
     end
+
+    context 'with alternative field names' do
+      let(:json_data_with_dishes) do
+        {
+          "restaurants" => [
+            {
+              "name" => "Casa del Poppo",
+              "menus" => [
+                {
+                  "name" => "lunch",
+                  "dishes" => [
+                    { "name" => "Chicken Wings", "price" => "9.00" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      end
+
+      let(:file_with_dishes) { StringIO.new(json_data_with_dishes.to_json) }
+      let(:importer_with_dishes) { described_class.new(file_with_dishes) }
+
+      it 'detects alternative key and processes data' do
+        result = importer_with_dishes.import!
+
+        expect(result[:success]).to be true
+        expect(MenuItem.find_by(name: "Chicken Wings")).to be_present
+      end
+    end
   end
 end
