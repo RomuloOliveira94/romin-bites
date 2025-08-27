@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "bootsnap", require: false
+gem "ffaker"
 gem "jsonapi-serializer"
 gem "kamal", require: false
 gem "puma", ">= 5.0"
@@ -17,7 +18,6 @@ group :development, :test do
   gem "bullet"
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "factory_bot_rails"
-  gem "ffaker"
   gem "rspec-rails"
   gem "rubocop-rails-omakase", require: false
 end
