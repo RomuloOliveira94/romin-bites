@@ -11,6 +11,7 @@ RESTful API for restaurant management, menus, and menu items, built with Ruby on
 - **JSON:API Serializer** (Response formatting)
 - **Puma** (Web server)
 - **RSpec** (Testing framework)
+- **GitHub Actions** (CI/CD)
 
 ## 📦 Installation
 
@@ -726,15 +727,6 @@ bundle exec rubocop
 
 # N+1 query detection (in development)
 # Bullet gem is configured to detect N+1 queries
-```
-
-## 🚢 Deployment
-
-The application is configured with **Kamal** for deployment:
-
-```bash
-# Deploy to production
-kamal deploy
 ```
 
 ## 📄 License
