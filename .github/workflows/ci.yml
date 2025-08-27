@@ -79,9 +79,6 @@ jobs:
 
       - name: Prepare SQLite database
         run: bin/rails db:create db:migrate
-
-      - name: Precompile assets
-        run: bin/rails assets:precompile
-
+        
       - name: Run tests
         run: bundle exec rspec
