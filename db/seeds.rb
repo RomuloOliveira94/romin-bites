@@ -30,12 +30,12 @@ end
 puts "Creating menus..."
 
 menu_templates = {
-  "Italian" => ["Lunch Menu", "Dinner Menu", "Wine & Appetizers"],
-  "Chinese" => ["Dim Sum Menu", "Main Course", "Vegetarian Selection"],
-  "Mexican" => ["Tacos & Burritos", "Dinner Specials", "Drinks & Appetizers"],
-  "American" => ["Burger Menu", "Sides & Appetizers", "Desserts"],
-  "Japanese" => ["Sushi Selection", "Hot Dishes", "Lunch Bento"],
-  "French" => ["Prix Fixe Menu", "À la Carte", "Wine Selection"]
+  "Italian" => [ "Lunch Menu", "Dinner Menu", "Wine & Appetizers" ],
+  "Chinese" => [ "Dim Sum Menu", "Main Course", "Vegetarian Selection" ],
+  "Mexican" => [ "Tacos & Burritos", "Dinner Specials", "Drinks & Appetizers" ],
+  "American" => [ "Burger Menu", "Sides & Appetizers", "Desserts" ],
+  "Japanese" => [ "Sushi Selection", "Hot Dishes", "Lunch Bento" ],
+  "French" => [ "Prix Fixe Menu", "À la Carte", "Wine Selection" ]
 }
 
 menus = []
