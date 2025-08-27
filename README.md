@@ -44,7 +44,7 @@ rails server
 ### Base URL
 
 ```
-http://rominbites.romin.dev.br/api/v1
+https://rominbites.romin.dev.br/api/v1
 ```
 
 ### Authentication
@@ -64,7 +64,7 @@ GET /api/v1/restaurants
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/restaurants" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/restaurants" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -102,7 +102,7 @@ GET /api/v1/restaurants/:id
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/restaurants/1" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/restaurants/1" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -116,7 +116,7 @@ GET /api/v1/restaurants/:id?include=menus
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/restaurants/1?include=menus" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/restaurants/1?include=menus" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -174,7 +174,7 @@ GET /api/v1/restaurants/:id?include=menus.menu_items
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/restaurants/1?include=menus.menu_items" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/restaurants/1?include=menus.menu_items" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -188,7 +188,7 @@ POST /api/v1/restaurants/import
 **cURL Example:**
 
 ```bash
-curl -X POST "http://rominbites.romin.dev.br/api/v1/restaurants/import" \
+curl -X POST "https://rominbites.romin.dev.br/api/v1/restaurants/import" \
   -H "Accept: application/json" \
   -F "file=@restaurants.json"
 ```
@@ -200,7 +200,7 @@ curl -X POST "http://rominbites.romin.dev.br/api/v1/restaurants/import" \
   "success": true,
   "message": "Import queued for processing",
   "job_id": "12345-67890-abcdef",
-  "status_url": "http://rominbites.romin.dev.br/api/v1/restaurants/import_status?job_id=12345-67890-abcdef"
+  "status_url": "https://rominbites.romin.dev.br/api/v1/restaurants/import_status?job_id=12345-67890-abcdef"
 }
 ```
 
@@ -213,7 +213,7 @@ GET /api/v1/restaurants/import_status?job_id=:job_id
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/restaurants/import_status?job_id=12345-67890-abcdef" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/restaurants/import_status?job_id=12345-67890-abcdef" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -351,7 +351,7 @@ GET /api/v1/menus
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/menus" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/menus" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -365,7 +365,7 @@ GET /api/v1/restaurants/:restaurant_id/menus
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/restaurants/1/menus" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/restaurants/1/menus" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -403,7 +403,7 @@ GET /api/v1/menus/:id
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/menus/1" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/menus/1" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -417,7 +417,7 @@ GET /api/v1/menus/:id?include=menu_items
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/menus/1?include=menu_items" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/menus/1?include=menu_items" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -480,7 +480,7 @@ GET /api/v1/menu_items
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/menu_items" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/menu_items" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -494,7 +494,7 @@ GET /api/v1/menus/:menu_id/menu_items
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/menus/1/menu_items" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/menus/1/menu_items" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -533,7 +533,7 @@ GET /api/v1/menu_items/:id
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/menu_items/1" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/menu_items/1" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -547,7 +547,7 @@ GET /api/v1/menu_items/:id?include=menus
 **cURL Example:**
 
 ```bash
-curl -X GET "http://rominbites.romin.dev.br/api/v1/menu_items/1?include=menus" \
+curl -X GET "https://rominbites.romin.dev.br/api/v1/menu_items/1?include=menus" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json"
 ```
@@ -645,16 +645,16 @@ You can include related resources using the `include` parameter:
 
 ```bash
 # Get restaurant with its menus
-curl "http://rominbites.romin.dev.br/api/v1/restaurants/1?include=menus"
+curl "https://rominbites.romin.dev.br/api/v1/restaurants/1?include=menus"
 
 # Get restaurant with menus and their items
-curl "http://rominbites.romin.dev.br/api/v1/restaurants/1?include=menus.menu_items"
+curl "https://rominbites.romin.dev.br/api/v1/restaurants/1?include=menus.menu_items"
 
 # Get menu with its items
-curl "http://rominbites.romin.dev.br/api/v1/menus/1?include=menu_items"
+curl "https://rominbites.romin.dev.br/api/v1/menus/1?include=menu_items"
 
 # Get menu item with its menus
-curl "http://rominbites.romin.dev.br/api/v1/menu_items/1?include=menus"
+curl "https://rominbites.romin.dev.br/api/v1/menu_items/1?include=menus"
 ```
 
 ## 📝 Model Attributes
