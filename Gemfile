@@ -5,7 +5,7 @@ gem "ffaker"
 gem "jsonapi-serializer"
 gem "kamal", require: false
 gem "puma", ">= 5.0"
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.0.3"
 gem "solid_cache"
 gem "solid_cable"
 gem "solid_queue"
